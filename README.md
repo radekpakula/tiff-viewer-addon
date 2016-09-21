@@ -15,4 +15,3 @@
 	setToPageCaption(String htmlCaption)
 	setIncreaseButtonCaption(String htmlCaption)
 	setDecreaseButtonCaption(String htmlCaption)
-
