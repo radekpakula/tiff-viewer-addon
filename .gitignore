@@ -1,0 +1,6 @@
+.classpath
+.settings/
+target/
+bin/
+build/
+WebContent/VAADIN/widgetsets
