@@ -1,6 +1,5 @@
-.classpath
+/build/
 .settings/
+.classpath
 target/
-bin/
-build/
-WebContent/VAADIN/widgetsets
+WebContent/VAADIN/widgetsets/

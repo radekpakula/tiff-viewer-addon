@@ -113,7 +113,7 @@ public class VTiffViewer extends HTML {
 	}
 	public native void initTiff(VTiffViewer instance)/*-{
 		$wnd.Tiff.initialize({TOTAL_MEMORY: 16777216 * 10});
-		window.el=instance.@pl.tiffviewer.widgetset.client.ui.VTiffViewer::canvas;
+		window.canvasElem=instance.@pl.tiffviewer.widgetset.client.ui.VTiffViewer::canvas;
 		window.root=instance.@pl.tiffviewer.widgetset.client.ui.VTiffViewer::root;
 		window.counter=instance.@pl.tiffviewer.widgetset.client.ui.VTiffViewer::counter;
 		window.input=instance.@pl.tiffviewer.widgetset.client.ui.VTiffViewer::inputCounter;
@@ -127,8 +127,8 @@ public class VTiffViewer extends HTML {
 				window.tiff.setDirectory(page);
 				var canvas = window.tiff.toCanvas();
 				window.canvas=canvas;
-				window.el.innerHTML='';
-				window.el.appendChild(canvas);
+				window.canvasElem.innerHTML='';
+				window.canvasElem.appendChild(canvas);
 				window.counter.innerHTML=window.pageCount;
 				window.currentPage=page;
 				window.input.value=page+1
