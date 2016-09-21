@@ -41,7 +41,7 @@ public class TiffViewer extends AbstractComponent{
 	public void setPage(int i){
 		getState().page=i;
 	}
-	public void setPreviousPageCaptionn(String htmlCaption){
+	public void setPreviousPageCaption(String htmlCaption){
 		getState().previousPageCaption=htmlCaption;
 	}
 	public void setNextPageCaption(String htmlCaption){
