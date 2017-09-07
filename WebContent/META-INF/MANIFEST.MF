@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Vaadin-Stylesheets: VAADIN/addons/tiffviewer/tiffviewer.scss
-Implementation-Title: TiffViewer
-Implementation-Version: 1.0.0
-Vaadin-Widgetsets: pl.tiffviewer.widgetset.TiffViewerWidgetset
-Vaadin-Package-Version: 1
-Class-Path: 
-

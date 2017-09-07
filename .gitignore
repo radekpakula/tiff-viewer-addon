@@ -1,5 +1,6 @@
-/build/
-.settings/
-.classpath
-target/
-WebContent/VAADIN/widgetsets/
+tiffviewer-addon/.classpath
+.settings/*
+tiffviewer-addon/.settings/*
+tiffviewer-demo/.settings/
+tiffviewer-addon/target/*
+tiffviewer-demo/target/*
