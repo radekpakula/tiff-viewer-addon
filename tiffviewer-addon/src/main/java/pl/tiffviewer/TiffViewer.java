@@ -8,7 +8,7 @@ import com.vaadin.server.FileResource;
 import pl.tiffviewer.client.TiffViewerServerRpc;
 import pl.tiffviewer.client.TiffViewerState;
 
-@JavaScript({ "tiff.viewer.js", "tiff.min.js", "dragscroll.js"})
+@JavaScript({ "tiff.viewer.js", "tiff.min.js", "dragscroll.js","print.js"})
 public class TiffViewer extends com.vaadin.ui.AbstractComponent {
 	private static final long serialVersionUID = 1L;
 	private TiffViewerServerRpc rpc = new TiffViewerServerRpc() {

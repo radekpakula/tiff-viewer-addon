@@ -140,7 +140,6 @@ public class TiffViewerWidget extends HTML {
 	}
 
 	public native void initTiff(TiffViewerWidget instance)/*-{
-		console.log('init tiff fired');
 		$wnd.Tiff.initialize({TOTAL_MEMORY: 16777216 * 10});
 		var tiffviewer=new $wnd.TiffViewer();
 		tiffviewer.canvas = instance.@pl.tiffviewer.client.TiffViewerWidget::canvas;
@@ -163,20 +162,16 @@ public class TiffViewerWidget extends HTML {
 	}-*/;
 
 	public native void loadResource(String fileName, TiffViewerWidget instance)/*-{
-		console.log('load resource fire');
 		var tiffviewer = instance.@pl.tiffviewer.client.TiffViewerWidget::jsObject;
 		tiffviewer.work=false;
 		if((tiffviewer.fileName==null || tiffviewer.fileName!=fileName) && tiffviewer!=null){
 			 tiffviewer.fileName=fileName;
 			 var xhr = new XMLHttpRequest();
 			 xhr.open('GET', fileName);
-			 console.log('recive file: '+fileName);
 			 xhr.responseType = 'arraybuffer';
 			 xhr.onload = function (e) {
 			    var buffer = xhr.response;
-			    console.log('try create tiff file');
 			    tiffviewer.tiffFile = new $wnd.Tiff({buffer: buffer});
-			    console.log(tiffviewer.tiffFile);
 			    tiffviewer.pageCount=tiffviewer.tiffFile.countDirectory();
 			    tiffviewer.showTiffPage(1);
 			  };

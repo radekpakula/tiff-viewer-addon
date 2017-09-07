@@ -21,12 +21,10 @@ function TiffViewer() {
 	this.addAngleBtn = null;
 	this.subAngleBtn = null;
 	this.downloadBtn = null;
-	this.printBtn = null;
 	this.angle = 0;
 }
 TiffViewer.prototype.showTiffPage = function(pageNumber) {
 	var self = this;
-	console.log('show tiff page ? '+pageNumber + " page: "+this.tiffFile+" count "+this.pageCount+" "+pageNumber);
 	if (this.tiffFile == null) {
 		this.counter.innerHTML = 0;
 		this.input.value = 0;
@@ -47,9 +45,6 @@ TiffViewer.prototype.showTiffPage = function(pageNumber) {
 };
 TiffViewer.prototype.downloadIt = function() {
 	download(this.fileName);
-}
-TiffViewer.prototype.printIt = function() {
-	printJS(this.fileName);
 }
 TiffViewer.prototype.checkInput = function(value) {
 	if (isNaN(value)) {
@@ -144,8 +139,5 @@ TiffViewer.prototype.init = function() {
 	};
 	this.downloadBtn.onclick=function(){
 		self.downloadIt();
-	}
-	this.printBtn.onclick=function(){
-		self.printIt();
 	}
 };
