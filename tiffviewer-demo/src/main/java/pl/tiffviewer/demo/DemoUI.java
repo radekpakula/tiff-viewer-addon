@@ -14,6 +14,9 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import pl.tiffviewer.TiffViewer;
+import pl.tiffviewer.listener.AngleChangeListener;
+import pl.tiffviewer.listener.DownloadTiffListener;
+import pl.tiffviewer.listener.PageChangeListener;
 
 @Theme("demo")
 @Title("TiffViewer Add-on Demo")
@@ -31,6 +34,26 @@ public class DemoUI extends UI
 
         // Initialize our new UI component
         final TiffViewer component = new TiffViewer(new File("/home/radek/Pobrane/204.tif"));
+        component.setImmediate(true);
+        component.addPageChangeListere(new PageChangeListener() {
+			@Override
+			public void pageChange(Integer page) {
+				System.out.println("PAGE CHANGE: "+page+" "+component.getPage());
+			}
+		});
+        component.addAngleChangeListere(new AngleChangeListener() {
+			@Override
+			public void angleChange(Integer value) {
+				System.out.println("ANGLE CHANGE: "+value+" "+component.getPage());
+				component.setPage(3);
+			}
+		});
+        component.addDownloadTiffListere(new DownloadTiffListener() {
+			@Override
+			public void download() {
+				System.out.println("TIFF WAS DOWNLOAD");
+			}
+		});
         component.setSizeFull();
         final VerticalLayout layout = new VerticalLayout();
         layout.setStyleName("demoContentLayout");
@@ -38,5 +61,6 @@ public class DemoUI extends UI
         layout.addComponent(component);
         layout.setComponentAlignment(component, Alignment.MIDDLE_CENTER);
         setContent(layout);
+        setImmediate(true);
     }
 }

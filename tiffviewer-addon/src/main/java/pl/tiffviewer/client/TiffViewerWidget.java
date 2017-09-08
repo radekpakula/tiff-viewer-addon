@@ -41,6 +41,9 @@ public class TiffViewerWidget extends HTML {
 	private JavaScriptObject jsObject;
 	private boolean angleVisible;
 	private boolean downloadVisible;
+	private IntegerListener angleChangeListener;
+	private IntegerListener pageChangeListener;
+	private VoidListener downloadListener;
 
 	public TiffViewerWidget() {
 		root = Document.get().createDivElement();
@@ -159,23 +162,66 @@ public class TiffViewerWidget extends HTML {
 		tiffviewer.downloadBtn=instance.@pl.tiffviewer.client.TiffViewerWidget::downloadBtn;
 		instance.@pl.tiffviewer.client.TiffViewerWidget::setJsObject(Lcom/google/gwt/core/client/JavaScriptObject;)(tiffviewer);
 		tiffviewer.init();
+		
+		tiffviewer.nextBtn.onclick = function() {
+			tiffviewer.showTiffPage(tiffviewer.currentPage + 1)
+			instance.@pl.tiffviewer.client.TiffViewerWidget::setPageValue(Ljava/lang/Integer;)(tiffviewer.currentPage);
+		};
+		tiffviewer.prevBtn.onclick = function() {
+			tiffviewer.showTiffPage(tiffviewer.currentPage - 1)
+			instance.@pl.tiffviewer.client.TiffViewerWidget::setPageValue(Ljava/lang/Integer;)(tiffviewer.currentPage);
+		};
+		tiffviewer.input.onkeypress = function(e) {
+			if (!e)
+				e = window.event;
+			var keyCode = e.keyCode || e.which;
+			if (keyCode == '13') {
+				var value = parseInt(e.target.value);
+				tiffviewer.showTiffPage(value);
+				return false;
+			}
+		};
+		tiffviewer.input.addEventListener('blur', function(e) {
+			var value = parseInt(e.target.value);
+			tiffviewer.showTiffPage(value);
+		});
+		tiffviewer.addAngleBtn.onclick = function() {
+			tiffviewer.angle = tiffviewer.angle + 90;
+			if (tiffviewer.angle == 360 || tiffviewer.angle == -360) {
+				tiffviewer.angle = 0;
+			}
+			tiffviewer.updateSize();
+			instance.@pl.tiffviewer.client.TiffViewerWidget::setAngleValue(Ljava/lang/Integer;)(tiffviewer.angle);
+		};
+		tiffviewer.subAngleBtn.onclick = function() {
+			tiffviewer.angle = tiffviewer.angle - 90;
+			if (tiffviewer.angle == 360 || tiffviewer.angle == -360) {
+				tiffviewer.angle = 0;
+			}
+			tiffviewer.updateSize();
+			instance.@pl.tiffviewer.client.TiffViewerWidget::setAngleValue(Ljava/lang/Integer;)(tiffviewer.angle);
+		};
+		tiffviewer.downloadBtn.onclick=function(){
+			tiffviewer.downloadIt();
+			instance.@pl.tiffviewer.client.TiffViewerWidget::downloadIt()();
+		}
 	}-*/;
 
 	public native void loadResource(String fileName, TiffViewerWidget instance)/*-{
 		var tiffviewer = instance.@pl.tiffviewer.client.TiffViewerWidget::jsObject;
 		tiffviewer.work=false;
 		if((tiffviewer.fileName==null || tiffviewer.fileName!=fileName) && tiffviewer!=null){
-			 tiffviewer.fileName=fileName;
-			 var xhr = new XMLHttpRequest();
-			 xhr.open('GET', fileName);
-			 xhr.responseType = 'arraybuffer';
-			 xhr.onload = function (e) {
-			    var buffer = xhr.response;
-			    tiffviewer.tiffFile = new $wnd.Tiff({buffer: buffer});
-			    tiffviewer.pageCount=tiffviewer.tiffFile.countDirectory();
-			    tiffviewer.showTiffPage(1);
-			  };
-			  xhr.send();
+		tiffviewer.fileName=fileName;
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', fileName);
+		xhr.responseType = 'arraybuffer';
+		xhr.onload = function (e) {
+		var buffer = xhr.response;
+		tiffviewer.tiffFile = new $wnd.Tiff({buffer: buffer});
+		tiffviewer.pageCount=tiffviewer.tiffFile.countDirectory();
+		tiffviewer.showTiffPage(1);
+		};
+		xhr.send();
 		}
 	}-*/;
 
@@ -185,11 +231,15 @@ public class TiffViewerWidget extends HTML {
 	}
 
 	public void setPage(int page) {
-		updatePage(page);
+		updatePage(page,this);
 	}
 
-	public native void updatePage(int page)/*-{
-											}-*/;
+	public native void updatePage(int page,TiffViewerWidget instance)/*-{
+		var tiffviewer = instance.@pl.tiffviewer.client.TiffViewerWidget::getJsObject()();
+		if(page!=tiffviewer.currentPage){
+			tiffviewer.showTiffPage(page);
+		}
+	}-*/;
 
 	public void setPreviousButtonCaption(String caption) {
 		updateInnerHtml(caption, previousBtn);
@@ -208,19 +258,21 @@ public class TiffViewerWidget extends HTML {
 	}
 
 	public native void updateInnerHtml(String caption, Element elem)/*-{
-		if(caption!=null && caption!=''){
-			elem.innerHTML=caption;
-		}
-	}-*/;
+																	if(caption!=null && caption!=''){
+																	elem.innerHTML=caption;
+																	}
+																	}-*/;
+
 	public void setAdditionalVisible(boolean visible) {
-		this.downloadVisible=visible;
-		if(downloadVisible){
+		this.downloadVisible = visible;
+		if (downloadVisible) {
 			additionalBox.removeAllChildren();
 			additionalBox.appendChild(downloadBtn);
-		}else{
+		} else {
 			additionalBox.removeAllChildren();
 		}
 	}
+
 	public void setNextAngleButtonCaption(String caption) {
 		updateInnerHtml(caption, nextAngleBtn);
 	}
@@ -234,16 +286,16 @@ public class TiffViewerWidget extends HTML {
 	}
 
 	public void setAngleVisibility(boolean visible) {
-		this.angleVisible=visible;
-		if(angleVisible){
+		this.angleVisible = visible;
+		if (angleVisible) {
 			angleBox.removeAllChildren();
 			angleBox.appendChild(backAngleBtn);
 			angleBox.appendChild(nextAngleBtn);
-			
-		}else{
+		} else {
 			angleBox.removeAllChildren();
 		}
 	}
+
 	public void setIncreaseButtonCaption(String caption) {
 		updateInnerHtml(caption, increaseBtn);
 	}
@@ -258,5 +310,31 @@ public class TiffViewerWidget extends HTML {
 
 	public void setJsObject(JavaScriptObject jsObject) {
 		this.jsObject = jsObject;
+	}
+
+	public DivElement getPreviousBtn() {
+		return previousBtn;
+	}
+
+	public DivElement getNextBtn() {
+		return nextBtn;
+	}
+	public void setPageValue(Integer page){
+		pageChangeListener.valueChange(page);
+	}
+	public void setAngleValue(Integer page){
+		angleChangeListener.valueChange(page);
+	}
+	public void downloadIt(){
+		downloadListener.listener();
+	}
+	public void setAngleChangeListener(IntegerListener angleChangeListener) {
+		this.angleChangeListener = angleChangeListener;
+	}
+	public void setPageChangeListener(IntegerListener pageChangeListener) {
+		this.pageChangeListener = pageChangeListener;
+	}
+	public void setDownloadListener(VoidListener downloadListener) {
+		this.downloadListener = downloadListener;
 	}
 }

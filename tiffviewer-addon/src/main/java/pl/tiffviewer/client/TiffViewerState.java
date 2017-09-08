@@ -4,7 +4,8 @@ public class TiffViewerState extends com.vaadin.shared.AbstractComponentState {
 
 	private static final long serialVersionUID = 1L;
 	public String resourceFile;
-	public int page=0;
+	public int page;
+	public int angle;
 	public String previousPageCaption;
 	public String nextPageCaption;
 	public String pageCaption;
@@ -16,4 +17,5 @@ public class TiffViewerState extends com.vaadin.shared.AbstractComponentState {
 	public String downloadCaption;
 	public boolean angleVisible;
 	public boolean downloadVisible;
+	
 }

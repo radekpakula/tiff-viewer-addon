@@ -25,6 +25,7 @@ function TiffViewer() {
 }
 TiffViewer.prototype.showTiffPage = function(pageNumber) {
 	var self = this;
+	this.angle=0;
 	if (this.tiffFile == null) {
 		this.counter.innerHTML = 0;
 		this.input.value = 0;
@@ -72,6 +73,7 @@ TiffViewer.prototype.updateSize = function() {
 	this.canvas.style.width = width;
 	
 	var deg = this.angle;
+	console.log(this.angle);
 	this.canvas.style.webkitTransform = 'rotate('+deg+'deg)'; 
 	this.canvas.style.mozTransform    = 'rotate('+deg+'deg)'; 
 	this.canvas.style.msTransform     = 'rotate('+deg+'deg)'; 
@@ -83,12 +85,6 @@ TiffViewer.prototype.updateSize = function() {
 };
 TiffViewer.prototype.init = function() {
 	var self = this;
-	this.nextBtn.onclick = function() {
-		self.showTiffPage(self.currentPage + 1)
-	};
-	this.prevBtn.onclick = function() {
-		self.showTiffPage(self.currentPage - 1)
-	};
 	this.increaseBtn.onclick = function() {
 		var list = self.selectSize;
 		list.value = list.value == 0 ? 1 : list.value;
@@ -105,39 +101,7 @@ TiffViewer.prototype.init = function() {
 			self.updateSize();
 		}
 	};
-	this.input.onkeypress = function(e) {
-		if (!e)
-			e = window.event;
-		var keyCode = e.keyCode || e.which;
-		if (keyCode == '13') {
-			var value = parseInt(e.target.value);
-			self.showTiffPage(value);
-			return false;
-		}
-	};
-	this.input.addEventListener('blur', function(e) {
-		var value = parseInt(e.target.value);
-		self.showTiffPage(value);
-	});
 	this.selectSize.onchange = function() {
 		self.updateSize();
 	};
-
-	this.addAngleBtn.onclick = function() {
-		self.angle = self.angle + 90;
-		if (self.angle == 360 || self.angle == -360) {
-			self.angle = 0;
-		}
-		self.updateSize();
-	};
-	this.subAngleBtn.onclick = function() {
-		self.angle = self.angle - 90;
-		if (self.angle == 360 || self.angle == -360) {
-			self.angle = 0;
-		}
-		self.updateSize();
-	};
-	this.downloadBtn.onclick=function(){
-		self.downloadIt();
-	}
 };
