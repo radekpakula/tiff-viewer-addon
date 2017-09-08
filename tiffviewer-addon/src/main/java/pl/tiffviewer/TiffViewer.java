@@ -121,22 +121,22 @@ public class TiffViewer extends com.vaadin.ui.AbstractComponent {
 	public void setDownloadBtnVisible(boolean visible) {
 		getState().downloadVisible = visible;
 	}
-	public void addPageChangeListere(PageChangeListener listener){
+	public void addPageChangeListener(PageChangeListener listener){
 		pageChangeListener.add(listener);
 	}
-	public void removePageChangeListere(PageChangeListener listener){
+	public void removePageChangeListener(PageChangeListener listener){
 		pageChangeListener.remove(listener);
 	}
-	public void addAngleChangeListere(AngleChangeListener listener){
+	public void addAngleChangeListener(AngleChangeListener listener){
 		angleChangeListener.add(listener);
 	}
-	public void removeAngleChangeListere(AngleChangeListener listener){
+	public void removeAngleChangeListener(AngleChangeListener listener){
 		angleChangeListener.remove(listener);
 	}
-	public void addDownloadTiffListere(DownloadTiffListener listener){
+	public void addDownloadTiffListener(DownloadTiffListener listener){
 		downloadListener.add(listener);
 	}
-	public void removeDownloadTiffListere(DownloadTiffListener listener){
+	public void removeDownloadTiffListener(DownloadTiffListener listener){
 		downloadListener.remove(listener);
 	}
 	public int getPage() {

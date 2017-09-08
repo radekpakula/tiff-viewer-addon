@@ -34,21 +34,20 @@ public class DemoUI extends UI
 
         // Initialize our new UI component
         final TiffViewer component = new TiffViewer(new File("/home/radek/Pobrane/204.tif"));
-        component.setImmediate(true);
-        component.addPageChangeListere(new PageChangeListener() {
+        component.addPageChangeListener(new PageChangeListener() {
 			@Override
 			public void pageChange(Integer page) {
 				System.out.println("PAGE CHANGE: "+page+" "+component.getPage());
 			}
 		});
-        component.addAngleChangeListere(new AngleChangeListener() {
+        component.addAngleChangeListener(new AngleChangeListener() {
 			@Override
 			public void angleChange(Integer value) {
 				System.out.println("ANGLE CHANGE: "+value+" "+component.getPage());
 				component.setPage(3);
 			}
 		});
-        component.addDownloadTiffListere(new DownloadTiffListener() {
+        component.addDownloadTiffListener(new DownloadTiffListener() {
 			@Override
 			public void download() {
 				System.out.println("TIFF WAS DOWNLOAD");
@@ -61,6 +60,5 @@ public class DemoUI extends UI
         layout.addComponent(component);
         layout.setComponentAlignment(component, Alignment.MIDDLE_CENTER);
         setContent(layout);
-        setImmediate(true);
     }
 }
